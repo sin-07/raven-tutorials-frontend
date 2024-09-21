@@ -29,9 +29,9 @@ const Login = () => {
   return (
     <>
       <Toaster />
-      <div className="min-h-screen w-full flex justify-center items-center">
+      <div className="min-h-screen w-full md:px-0 px-1 flex justify-center items-center">
         <form
-          className="min-w-[30%]  px-4 pb-8 shadow-2xl rounded-lg"
+          className="md:w-[30%] w-full  md:px-4 px-1  pb-8 shadow-2xl rounded-lg"
           onSubmit={handleLogin}
         >
           <h1 className="font-bold text-3xl mb-4 py-6 text-center">LogIn</h1>

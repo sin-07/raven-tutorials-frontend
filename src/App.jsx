@@ -7,6 +7,7 @@ import AboutUs from "./Components/AboutUs";
 import OurServices from "./Components/OurServices";
 import Login from "./Components/Login";
 import Forgot from "./Components/Forgot";
+import AdmissionForm from "./Components/AdmissionForm";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/admissionForm" element={<AdmForm />} />
+          <Route path="/form" element={<AdmissionForm />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/our-services" element={<OurServices />} />
           <Route path="/login" element={<Login />} />

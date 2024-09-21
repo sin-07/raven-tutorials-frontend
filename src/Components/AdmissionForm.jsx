@@ -1,159 +1,28 @@
-import React, { useState } from "react";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import { body } from "framer-motion/client";
+import React, { useState } from 'react'
 
 const AdmissionForm = () => {
-  const [userData, setUserdata] = useState({
-    name: "",
-    email: "",
-    bloodGroup: "",
-    contact: "",
-    alternateContact: "",
-    address: "",
-    pincode: "",
-    hobby: "",
-    dob: "",
-    schoolName: "",
-    guardianName: "",
-    standard: "",
-    photo: "",
-    // errors: {},
-  });
-  const [error, seterror] = useState({});
-  const [msg, setmsg] = useState(false);
 
-  const handleChange = (e) => {
-    if (e.target.type === "file") {
-      setUserdata({ ...userData, photo: e.target.files[0] });
-    } else {
-      setUserdata({ ...userData, [e.target.name]: e.target.value });
-    }
-    console.log(userData);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const newerror = {};
-
-    if (userData.name === "") {
-      newerror.name = "Enter name";
-    } else if (userData.name.length <= 2 || userData.name.length >= 15) {
-      newerror.name = "Enter more than 2 alphabet";
-    }
-    if (userData.email === "") {
-      newerror.email = "Kindly enter email";
-    }
-    if (userData.name === "") {
-      newerror.guardianName = "Enter Guardian name";
-    } else if (
-      userData.guardianName.length <= 2 ||
-      userData.guardianName.length >= 15
-    ) {
-      newerror.guardianName = "Enter between 2 to 15 alphabet";
-    }
-    if (userData.standard === "") {
-      newerror.standard = "Kindly enter standard";
-    } else if (isNaN(userData.standard)) {
-      newerror.standard = "Plz enter only digits";
-    } else if (userData.standard.length > 2) {
-      newerror.standard = "plz enter in given range";
-    }
-    if (userData.bloodGroup === "") {
-      newerror.bloodGroup = "Kindly enter bloodGroup";
-    }
-    if (userData.contact == "") {
-      newerror.contact = "Plz enter mobile";
-    } else if (isNaN(userData.contact)) {
-      newerror.contact = "Plz enter digits";
-    } else if (userData.contact.length < 10 || userData.contact.length > 10) {
-      newerror.contact = "plz enter 10 dgits";
-    }
-    if (userData.alternateContact === "") {
-      newerror.alternateContact = "Plz enter mobile";
-    } else if (isNaN(userData.alternateContact)) {
-      newerror.contact = "Plz enter digits";
-    } else if (
-      userData.alternateContact.length < 10 ||
-      userData.alternateContact.length > 10
-    ) {
-      newerror.alternateContact = "plz enter 10 dgits";
-    }
-    if (userData.address === "") {
-      newerror.address = "Enter address";
-    }
-    if (userData.pincode === "") {
-      newerror.pincode = "Plz enter mobile";
-    } else if (isNaN(userData.pincode)) {
-      newerror.contact = "Plz enter digits";
-    } else if (userData.pincode.length < 6 || userData.pincode.length > 6) {
-      newerror.pincode = "plz enter 10 dgits";
-    }
-    if (userData.hobby === "") {
-      newerror.hobby = "Enter hobby";
-    }
-    if (userData.schoolName === "") {
-      newerror.schoolName = "Enter school name";
-    }
-    setmsg(true);
-    seterror(newerror);
-
-    // try {
-    //   const formData = new FormData();
-    //   formData.append(
-    //     "userData",
-    //     JSON.stringify({
-    //       name: userData.name,
-    //       email: userData.email,
-    //       bloodgroup: userData.bloodGroup,
-    //       contact: userData.contact,
-    //       alternatecontact: userData.alternateContact,
-    //       address: userData.address,
-    //       pincode: userData.pincode,
-    //       hobby: userData.hobby,
-    //       dob: userData.dob,
-    //       schoolname: userData.schoolName,
-    //       guardianname: userData.guardianName,
-    //       standard: userData.standard,
-    //     })
-    //   ); // User data
-    //   formData.append("photo", userData.photo);
-
-    //   const res = await axios.post(
-    //     "https://raven-tutorials-backend-y1pc.onrender.com/register",
-    //     formData,
-    //     {
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //     }
-    //   );
-    //   const data = await res.data;
-    //   toast.success(data.message);
-    // } catch (error) {
-    //   toast.error("Registration failed");
-    // }
-
-    try {
-      const res = await axios.post(
-        "https://raven-tutorials-backend-y1pc.onrender.com/api/register",
-        userData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-          body: JSON.stringify(userData),
-        }
-      );
-
-      console.log(res)
-    } catch (error) {
-      return toast.error("Registration failed");
-    }
-  };
-
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [guardianName, setGuardianName] = useState('')
+    const [standard, setStandard] = useState('')
+    const [bloodGroup, setBloodGroup] = useState('')
+    const [contact, setContact] = useState('')
+    const [alternateContact, setAlternateContact] = useState('')
+    const [address, setAddress] = useState('')
+    const [pincode, setPincode] = useState('')
+    const [hobby, setHobby] = useState('')
+    const [dob, setDob] = useState('')
+    const [schoolName, setSchoolName] = useState('')
+    const [photo, setPhoto] = useState('')
+    
+    
+    
   return (
     <>
       <Toaster />
       <div className="container md:px-0 px-1 md:mx-auto my-8 ">
-        {/* <form action=""></form> */}
+        
         <form action="post" onSubmit={handleSubmit}>
           <h2 className="text-[2rem] font-bold mb-4 sm:text-left text-center">
             Admission Form
@@ -384,7 +253,7 @@ const AdmissionForm = () => {
         </form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AdmissionForm;
+export default AdmissionForm
