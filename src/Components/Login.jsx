@@ -11,16 +11,20 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://raven-tutorials-backend-y1pc.onrender.com/api/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "https://raven-tutorials-backend-y1pc.onrender.com/login",
+        {
+          email,
+          password,
+        },
+       
+      );
       const data = await res.data;
       toast.success(data.message);
 
       setTimeout(() => {
         navigate("/");
-      },1000)
+      }, 1000);
     } catch (error) {
       toast.error(error.message);
     }
