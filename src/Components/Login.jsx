@@ -17,8 +17,9 @@ const Login = () => {
           email,
           password,
         },
-       
+        
       );
+      console.log(res)
       const data = await res.data;
       toast.success(data.message);
 

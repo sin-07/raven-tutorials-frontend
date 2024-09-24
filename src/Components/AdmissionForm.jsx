@@ -1,85 +1,111 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdmissionForm = () => {
+  const [image, setImage] = useState(null);
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [guardianName, setGuardianName] = useState('')
-    const [standard, setStandard] = useState('')
-    const [bloodGroup, setBloodGroup] = useState('')
-    const [contact, setContact] = useState('')
-    const [alternateContact, setAlternateContact] = useState('')
-    const [address, setAddress] = useState('')
-    const [pincode, setPincode] = useState('')
-    const [hobby, setHobby] = useState('')
-    const [dob, setDob] = useState('')
-    const [schoolName, setSchoolName] = useState('')
-    const [photo, setPhoto] = useState('')
-    
-    
-    
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const name = e.target.name.value;
+      const email = e.target.email.value;
+      const guardianName = e.target.guardianName.value;
+      const standard = e.target.standard.value;
+      const bloodGroup = e.target.bloodGroup.value;
+      const contact = e.target.contact.value;
+      const alternateContact = e.target.alternateContact.value;
+      const address = e.target.address.value;
+      const pincode = e.target.pincode.value;
+      const hobby = e.target.hobby.value;
+      const dob = e.target.dob.value;
+      const schoolName = e.target.schoolName.value;
+
+      if(!name || !email || !guardianName || !standard || !bloodGroup || !contact || !alternateContact || !address || !pincode || !hobby || !dob || !schoolName || !image){
+        toast.error("Please fill all the fields");
+      }else
+      if(name.trim===""|| email.trim==="" || guardianName.trim==="" || standard.trim==="" || bloodGroup.trim==="" || contact.trim==="" || alternateContact.trim==="" || address.trim==="" || pincode.trim==="" || hobby.trim==="" || dob.trim==="" || schoolName.trim===""){
+        toast.error("Please fill all the fields");
+      }else
+      if (
+        name.length < 3 || (!email.includes("@") && !email.includes(".")) || pincode.length!==6
+      ) {
+        return toast.error("Invalid input");
+      }
+      
+      
+    } catch (error) {
+      console.log(error.message);
+      
+    }
+  };
+
+
+  const handleImageChange=(e)=>{
+    const file = e.target.files[0];
+    if (file.size>1000000) {
+      toast.error("File size should be less than 1MB");
+    }else{
+      setImage(file);
+    }
+  }
+  
+  
+
   return (
     <>
       <Toaster />
-      <div className="container md:px-0 px-1 md:mx-auto my-8 ">
+      <div className="bg-white">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full md:w-[80%] mx-auto bg-[#f3f4f6] md:px-8 px-4"
+        >
+         
+            <h2 className="text-center font-bold md:text-4xl text-2xl py-4">
+              Admission Form
+            </h2>
         
-        <form action="post" onSubmit={handleSubmit}>
-          <h2 className="text-[2rem] font-bold mb-4 sm:text-left text-center">
-            Admission Form
-          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="mb-4">
               <label htmlFor="name" className="block font-medium mb-1">
-                Name
+                Name <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="text"
                 id="name"
                 name="name"
-                value={userData.name}
-                onChange={handleChange}
-                className={` w-full border ${
-                  error.name ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your name"
               />
-              <span style={{ color: "red" }}>{error.name}</span>
             </div>
             <div className="mb-4">
               <label htmlFor="email" className="block font-medium mb-1">
-                Email
+                Email <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="text"
                 id="email"
                 name="email"
-                value={userData.email}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.email ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your email"
               />
-              <span style={{ color: "red" }}>{error.email}</span>
             </div>
 
             <div className="mb-4">
               <label htmlFor="guardianName" className="block font-medium mb-1">
-                Guardian Name
+                Guardian Name <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="text"
                 id="guardianName"
                 name="guardianName"
-                value={userData.guardianName}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.guardianName ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your guardian name"
               />
-              <span style={{ color: "red" }}>{error.guardianName}</span>
             </div>
             <div className="mb-4">
               <label htmlFor="standard" className="block font-medium mb-1">
-                Standard
+                Standard <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="number"
@@ -87,158 +113,121 @@ const AdmissionForm = () => {
                 name="standard"
                 min="1"
                 max="12"
-                value={userData.standard}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.standard ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your standard"
               />
-              <span style={{ color: "red" }}>{error.standard}</span>
             </div>
 
             <div className="mb-4">
               <label htmlFor="bloodGroup" className="block font-medium mb-1">
-                Blood Group
+                Blood Group <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="text"
                 id="bloodGroup"
                 name="bloodGroup"
-                value={userData.bloodGroup}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.bloodGroup ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your blood group"
               />
-              <span style={{ color: "red" }}>{error.bloodGroup}</span>
             </div>
             <div className="mb-4">
               <label htmlFor="contact" className="block font-medium mb-1">
-                Contact Number
+                Contact Number <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="number"
                 id="contact"
                 name="contact"
-                value={userData.contact}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.contact ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your contact number"
               />
-              <span style={{ color: "red" }}>{error.contact}</span>
             </div>
             <div className="mb-4">
               <label
                 htmlFor="alternateContact"
                 className="block font-medium mb-1"
               >
-                Alternate Contact Number
+                Alternate Contact Number <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="number"
                 id="alternateContact"
                 name="alternateContact"
-                value={userData.alternateContact}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.alternateContact ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your alternate contact number"
               />
-              <span style={{ color: "red" }}>{error.alternateContact}</span>
             </div>
             <div className="mb-4">
               <label htmlFor="address" className="block font-medium mb-1">
-                Address
+                Address <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="text"
                 id="address"
                 name="address"
-                value={userData.address}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.address ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your address"
               />
-              <span style={{ color: "red" }}>{error.address}</span>
             </div>
             <div className="mb-4">
               <label htmlFor="pincode" className="block font-medium mb-1">
-                Pincode
+                Pincode <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="number"
                 id="pincode"
                 name="pincode"
-                value={userData.pincode}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.pincode ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your pincode"
               />
-              <span style={{ color: "red" }}>{error.pincode}</span>
             </div>
             <div className="mb-4">
               <label htmlFor="hobby" className="block font-medium mb-1">
-                Hobby
+                Hobby <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="text"
                 id="hobby"
                 name="hobby"
-                value={userData.hobby}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.hobby ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your hobby"
               />
-              <span style={{ color: "red" }}>{error.hobby}</span>
             </div>
             <div className="mb-4">
               <label htmlFor="dob" className="block font-medium mb-1">
-                Date of Birth
+                Date of Birth <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="date"
                 id="dob"
                 name="dob"
-                value={userData.dob}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.dob ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
               />
-              <span style={{ color: "red" }}>{error.dob}</span>
             </div>
 
             <div className="mb-4">
               <label htmlFor="schoolName" className="block font-medium mb-1">
-                School Name
+                School Name <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="text"
                 id="schoolName"
                 name="schoolName"
-                value={userData.schoolName}
-                onChange={handleChange}
-                className={`form-input w-full border ${
-                  error.schoolName ? "border-red-500" : ""
-                }`}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                placeholder="Enter your school name"
               />
-              <span style={{ color: "red" }}>{error.schoolName}</span>
             </div>
             <div className="mb-4">
-              <label htmlFor="photo" className="block font-medium mb-1">
-                Upload Photo
+              <label htmlFor="profile" className="block font-medium mb-1">
+                Upload Photo <span className="text-red-500 font-bold text-lg">*</span>
               </label>
               <input
                 type="file"
-                id="photo"
-                name="photo"
-                // accept="image/*"
-                onChange={handleChange}
-                className="form-input w-full border"
+                id="profile"
+                name="profile"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
               />
             </div>
             <div className="mt-4 text-right">
@@ -253,7 +242,7 @@ const AdmissionForm = () => {
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AdmissionForm
+export default AdmissionForm;

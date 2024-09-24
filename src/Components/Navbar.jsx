@@ -25,7 +25,7 @@ function Navbar() {
             <Link to="/our-services">
               <li>Service</li>
             </Link>
-            <Link to="/admissionForm">
+            <Link to="/form">
               <li>Admission</li>
             </Link>
           </ul>
