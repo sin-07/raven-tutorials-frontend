@@ -2,24 +2,30 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { ScaleLoader } from "react-spinners";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      return toast.error("Please fill in all fields");
+    }
+    setLoading(true);
     try {
       const res = await axios.post(
         "https://raven-tutorials-backend-y1pc.onrender.com/login",
         {
           email,
           password,
-        },
-        
+        }
       );
-      console.log(res)
+
       const data = await res.data;
       toast.success(data.message);
 
@@ -27,11 +33,12 @@ const Login = () => {
         navigate("/");
       }, 1000);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
-  
   return (
     <>
       <Toaster />
@@ -72,8 +79,18 @@ const Login = () => {
               Forget Password
             </Link>
           </div>
-          <button className="w-full h-10 rounded-lg bg-black text-white">
-            Login
+          <button
+            type="submit"
+            className="w-full h-10 rounded-lg bg-black text-white flex justify-center items-center"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <ScaleLoader color="#ffffff"/>
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>

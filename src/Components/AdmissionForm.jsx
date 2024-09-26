@@ -3,10 +3,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { useUpload } from "../hooks/useUpload";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ScaleLoader } from "react-spinners";
 
 const AdmissionForm = () => {
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,38 +68,44 @@ const AdmissionForm = () => {
         if (!url || !public_id) {
           return toast.error("Failed to upload image");
         } else {
-          const res = await axios.post("https://raven-tutorials-backend-y1pc.onrender.com/form", {
-            name,
-            email,
-            guardianname,
-            standard,
-            bloodgroup,
-            contact,
-            alternatecontact,
-            address,
-            pincode,
-            hobby,
-            dob,
-            schoolname,
-            profile: url,
-            publicId: public_id,
-          });
+          setLoading(true);
+          const res = await axios.post(
+            "https://raven-tutorials-backend-y1pc.onrender.com/form",
+            {
+              name,
+              email,
+              guardianname,
+              standard,
+              bloodgroup,
+              contact,
+              alternatecontact,
+              address,
+              pincode,
+              hobby,
+              dob,
+              schoolname,
+              profile: url,
+              publicId: public_id,
+            }
+          );
           // console.log(res);
           const data = await res.data;
           if (!data) {
             return toast.error("Failed to register");
-          }else{
+          } else {
             toast.success("Student registered successfully");
             e.target.reset();
             // setTimeout(()=>{
-              
+
             // })
-            navigate('/submit-successfully')
+            navigate("/submit-successfully");
           }
         }
       }
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -300,9 +308,15 @@ const AdmissionForm = () => {
             <div className="mt-4 text-right">
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 mb-2 rounded hover:bg-blue-600 md:w-[40%] w-full"
               >
-                Submit
+                {loading ? (
+                  <>
+                    <ScaleLoader color="#ffffff" />
+                  </>
+                ) : (
+                  "Submit"
+                )}
               </button>
             </div>
           </div>
