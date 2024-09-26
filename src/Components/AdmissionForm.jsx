@@ -66,7 +66,7 @@ const AdmissionForm = () => {
         if (!url || !public_id) {
           return toast.error("Failed to upload image");
         } else {
-          const res = await axios.post("https://raven-tutorials-backend-y1pc.onrender.com", {
+          const res = await axios.post("https://raven-tutorials-backend-y1pc.onrender.com/form", {
             name,
             email,
             guardianname,
