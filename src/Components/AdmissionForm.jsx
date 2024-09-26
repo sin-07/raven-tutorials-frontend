@@ -42,6 +42,7 @@ const AdmissionForm = () => {
         !image
       ) {
         toast.error("Please fill all the fields");
+        setLoading(true);
       } else if (
         name.trim === "" ||
         email.trim === "" ||
@@ -63,6 +64,12 @@ const AdmissionForm = () => {
         pincode.length !== 6
       ) {
         return toast.error("Invalid input");
+      } else if (contact.length !== 10 || alternatecontact.length !== 10) {
+        return toast.error("Contacts must be in 10 digits");
+      } else if (standard < 1 || standard > 12) {
+        return toast.error("Standard must be between 1 to 12");
+      } else if (contact === alternatecontact) {
+        return toast.error("Contact and Alternate Contact must be different");
       } else {
         const { url, public_id } = await useUpload({ image });
         if (!url || !public_id) {
