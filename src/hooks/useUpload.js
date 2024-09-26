@@ -1,27 +1,26 @@
 import axios from "axios";
 
-export const useUpload = async ({ image, onUploadProgress }) => {
+export const useUpload = async ({ image }) => {
   const upload = async () => {
     try {
       const formData = new FormData();
       formData.append("file", image);
       formData.append("upload_preset", "raven_tutorials");
-      formData.append("api_key", "");
+      formData.append("api_key", "554823718745177");
 
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        onUploadProgress: onUploadProgress,
         withCredentials: false,
       };
 
       const res = await axios.post(
-        "https://api.cloudinary.com/v1_1/raven-tutorials/image/upload",
-        {
+        "https://api.cloudinary.com/v1_1/dxli2mlbq/image/upload",
+        
           formData,
           config,
-        }
+        
       );
 
       const data = await res.data;

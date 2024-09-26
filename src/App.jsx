@@ -7,6 +7,7 @@ import OurServices from "./Components/OurServices";
 import Login from "./Components/Login";
 import Forgot from "./Components/Forgot";
 import AdmissionForm from "./Components/AdmissionForm";
+import SubmissionSuccess from "./Components/SubmissionSuccess ";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/our-services" element={<OurServices />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot" element={<Forgot />} />
+          <Route path="/submit-successfully" element={<SubmissionSuccess />} />
         </Routes>
         <Footer />
       </BrowserRouter>

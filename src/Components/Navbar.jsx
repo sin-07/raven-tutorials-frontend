@@ -30,8 +30,8 @@ function Navbar() {
             </Link>
           </ul>
         </div>
-        <button className="border border-black px-5 py-2 bg-black text-white rounded-md font-bold hover:bg-slate-900 hover:scale-110 duration-700 ease-in-out shadow-md">
-          <Link to="/login">Login</Link>
+        <button className="border border-black px-5 py-2 bg-black text-white rounded-md font-bold hover:bg-slate-900 hover:scale-100 duration-500 ease-in-out shadow-md">
+          <Link to="/login" className="font-extrabold">Login</Link>
         </button>
 
         {sidenav ? (
