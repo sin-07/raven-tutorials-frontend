@@ -46,7 +46,7 @@ function Navbar() {
               <Link to="/our-services">
                 <li onClick={() => setsidenav(!sidenav)}>Service</li>
               </Link>
-              <Link to="/admissionForm">
+              <Link to="/form">
                 <li onClick={() => setsidenav(!sidenav)}>Admission</li>
               </Link>
               <Link to="/about-us">
