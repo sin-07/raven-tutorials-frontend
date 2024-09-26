@@ -31,10 +31,7 @@ const Login = () => {
     }
   };
 
-  // useEffect(()=>{
-  //   handleLogin()
-  // },[])
-
+  
   return (
     <>
       <Toaster />
