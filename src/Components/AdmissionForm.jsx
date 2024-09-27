@@ -12,6 +12,7 @@ const AdmissionForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const name = e.target.name.value;
       const email = e.target.email.value;
@@ -75,7 +76,7 @@ const AdmissionForm = () => {
         if (!url || !public_id) {
           return toast.error("Failed to upload image");
         } else {
-          setLoading(true);
+          
           const res = await axios.post(
             "https://raven-tutorials-backend-y1pc.onrender.com/form",
             {

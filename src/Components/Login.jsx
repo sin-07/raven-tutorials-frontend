@@ -13,25 +13,29 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      return toast.error("Please fill in all fields");
-    }
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://raven-tutorials-backend-y1pc.onrender.com/login",
-        {
-          email,
-          password,
+      if (!email || !password) {
+        return toast.error("Please fill in all fields");
+      } else {
+        const res = await axios.post(
+          "https://raven-tutorials-backend-y1pc.onrender.com/login",
+          {
+            email,
+            password,
+          }
+        );
+        const data = await res.data;
+        if (!data) {
+          return toast.error("Invalid credentials");
+        } else {
+          toast.success(data.message);
+
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         }
-      );
-
-      const data = await res.data;
-      toast.success(data.message);
-
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      }
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -86,7 +90,7 @@ const Login = () => {
           >
             {loading ? (
               <>
-                <ScaleLoader color="#ffffff"/>
+                <ScaleLoader color="#ffffff" />
               </>
             ) : (
               "Login"
