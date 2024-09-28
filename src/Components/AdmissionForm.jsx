@@ -1,117 +1,62 @@
 import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { useUpload } from "../hooks/useUpload";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { ScaleLoader } from "react-spinners";
+import { useUpload } from "../hooks/useUpload";
+import toast, { Toaster } from "react-hot-toast";
 
-const AdmissionForm = () => {
+export default function AdmissionForm() {
   const [image, setImage] = useState(null);
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const name = e.target.name.value;
-      const email = e.target.email.value;
-      const guardianname = e.target.guardianname.value;
-      const standard = e.target.standard.value;
-      const bloodgroup = e.target.bloodgroup.value;
-      const contact = e.target.contact.value;
-      const alternatecontact = e.target.alternatecontact.value;
-      const address = e.target.address.value;
-      const pincode = e.target.pincode.value;
-      const hobby = e.target.hobby.value;
-      const dob = e.target.dob.value;
-      const schoolname = e.target.schoolname.value;
+      const formData = new FormData(e.target);
+      const formFields = Object.fromEntries(formData.entries());
 
-      if (
-        !name ||
-        !email ||
-        !guardianname ||
-        !standard ||
-        !bloodgroup ||
-        !contact ||
-        !alternatecontact ||
-        !address ||
-        !pincode ||
-        !hobby ||
-        !dob ||
-        !schoolname ||
-        !image
-      ) {
-        toast.error("Please fill all the fields");
-        setLoading(true);
-      } else if (
-        name.trim === "" ||
-        email.trim === "" ||
-        guardianname.trim === "" ||
-        standard.trim === "" ||
-        bloodgroup.trim === "" ||
-        contact.trim === "" ||
-        alternatecontact.trim === "" ||
-        address.trim === "" ||
-        pincode.trim === "" ||
-        hobby.trim === "" ||
-        dob.trim === "" ||
-        schoolname.trim === ""
-      ) {
-        toast.error("Please fill all the fields");
-      } else if (
-        name.length < 3 ||
-        (!email.includes("@") && !email.includes(".")) ||
-        pincode.length !== 6
-      ) {
-        return toast.error("Invalid input");
-      } else if (contact.length !== 10 || alternatecontact.length !== 10) {
-        return toast.error("Contacts must be in 10 digits");
-      } else if (standard < 1 || standard > 12) {
-        return toast.error("Standard must be between 1 to 12");
-      } else if (contact === alternatecontact) {
-        return toast.error("Contact and Alternate Contact must be different");
-      } else {
-        const { url, public_id } = await useUpload({ image });
-        if (!url || !public_id) {
-          return toast.error("Failed to upload image");
-        } else {
-          
-          const res = await axios.post(
-            "https://raven-tutorials-backend-y1pc.onrender.com/form",
-            {
-              name,
-              email,
-              guardianname,
-              standard,
-              bloodgroup,
-              contact,
-              alternatecontact,
-              address,
-              pincode,
-              hobby,
-              dob,
-              schoolname,
-              profile: url,
-              publicId: public_id,
-            }
-          );
-          // console.log(res);
-          const data = await res.data;
-          if (!data) {
-            return toast.error("Failed to register");
-          } else {
-            toast.success("Student registered successfully");
-            e.target.reset();
-            // setTimeout(()=>{
-
-            // })
-            navigate("/submit-successfully");
-          }
-        }
+      // Validation
+      if (Object.values(formFields).some((field) => !field) || !image) {
+        throw new Error("Please fill all the fields");
       }
+
+      if (formFields.name.length < 3)
+        throw new Error("Name must be at least 3 characters long");
+      if (!formFields.email.includes("@") || !formFields.email.includes("."))
+        throw new Error("Invalid email format");
+      if (formFields.pincode.length !== 6)
+        throw new Error("Pincode must be 6 digits");
+      if (
+        formFields.contact.length !== 10 ||
+        formFields.alternatecontact.length !== 10
+      )
+        throw new Error("Contact numbers must be 10 digits");
+      if (formFields.standard < 1 || formFields.standard > 12)
+        throw new Error("Standard must be between 1 to 12");
+      if (formFields.contact === formFields.alternatecontact)
+        throw new Error("Contact and Alternate Contact must be different");
+
+      const { url, public_id } = await useUpload({ image });
+      if (!url || !public_id) throw new Error("Failed to upload image");
+
+      const res = await axios.post(
+        "https://raven-tutorials-backend-y1pc.onrender.com/form",
+        {
+          ...formFields,
+          profile: url,
+          publicId: public_id,
+        }
+      );
+
+      if (!res.data) throw new Error("Failed to register");
+
+      toast.success("Student registered successfully");
+      e.target.reset();
+      navigate("/submit-successfully");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -127,182 +72,112 @@ const AdmissionForm = () => {
   };
 
   return (
-    <>
-      <Toaster />
-      <div className="bg-white">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full md:w-[80%] mx-auto bg-[#f3f4f6] md:px-8 px-4"
-        >
-          <h2 className="text-center font-bold md:text-4xl text-2xl py-4">
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white py-12 px-4 sm:px-6 lg:px-8">
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden mt-10">
+        <div className="px-4 py-5 sm:p-6">
+          <h2 className="text-center font-bold text-3xl md:text-4xl text-gray-900 mb-8">
             Admission Form
           </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="mb-4">
-              <label htmlFor="name" className="block font-medium mb-1">
-                Name <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your name"
-              />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+              {[
+                {
+                  name: "name",
+                  label: "Name",
+                  type: "text",
+                  placeholder: "Enter your name",
+                },
+                {
+                  name: "email",
+                  label: "Email",
+                  type: "email",
+                  placeholder: "Enter your email",
+                },
+                {
+                  name: "guardianname",
+                  label: "Guardian Name",
+                  type: "text",
+                  placeholder: "Enter guardian's name",
+                },
+                {
+                  name: "standard",
+                  label: "Standard",
+                  type: "number",
+                  placeholder: "Enter your standard",
+                  min: "1",
+                  max: "12",
+                },
+                {
+                  name: "bloodgroup",
+                  label: "Blood Group",
+                  type: "text",
+                  placeholder: "Enter your blood group",
+                },
+                {
+                  name: "contact",
+                  label: "Contact Number",
+                  type: "tel",
+                  placeholder: "Enter your contact number",
+                },
+                {
+                  name: "alternatecontact",
+                  label: "Alternate Contact",
+                  type: "tel",
+                  placeholder: "Enter alternate contact",
+                },
+                {
+                  name: "address",
+                  label: "Address",
+                  type: "text",
+                  placeholder: "Enter your address",
+                },
+                {
+                  name: "pincode",
+                  label: "Pincode",
+                  type: "number",
+                  placeholder: "Enter your pincode",
+                },
+                {
+                  name: "hobby",
+                  label: "Hobby",
+                  type: "text",
+                  placeholder: "Enter your hobby",
+                },
+                { name: "dob", label: "Date of Birth", type: "date" },
+                {
+                  name: "schoolname",
+                  label: "School Name",
+                  type: "text",
+                  placeholder: "Enter your school name",
+                },
+              ].map((field) => (
+                <div key={field.name}>
+                  <label
+                    htmlFor={field.name}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    {field.label} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    id={field.name}
+                    placeholder={field.placeholder}
+                    min={field.min}
+                    max={field.max}
+                    required
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+              ))}
             </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block font-medium mb-1">
-                Email <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your email"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="guardianname" className="block font-medium mb-1">
-                Guardian Name{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="text"
-                id="guardianname"
-                name="guardianname"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your guardian name"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="standard" className="block font-medium mb-1">
-                Standard{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="number"
-                id="standard"
-                name="standard"
-                min="1"
-                max="12"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your standard"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="bloodgroup" className="block font-medium mb-1">
-                Blood Group{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="text"
-                id="bloodgroup"
-                name="bloodgroup"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your blood group"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="contact" className="block font-medium mb-1">
-                Contact Number{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="number"
-                id="contact"
-                name="contact"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your contact number"
-              />
-            </div>
-            <div className="mb-4">
+            <div>
               <label
-                htmlFor="alternatecontact"
-                className="block font-medium mb-1"
+                htmlFor="profile"
+                className="block text-sm font-medium text-gray-700"
               >
-                Alternate Contact Number{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="number"
-                id="alternatecontact"
-                name="alternatecontact"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your alternate contact number"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="address" className="block font-medium mb-1">
-                Address{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your address"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="pincode" className="block font-medium mb-1">
-                Pincode{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="number"
-                id="pincode"
-                name="pincode"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your pincode"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="hobby" className="block font-medium mb-1">
-                Hobby <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="text"
-                id="hobby"
-                name="hobby"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your hobby"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="dob" className="block font-medium mb-1">
-                Date of Birth{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="date"
-                id="dob"
-                name="dob"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="schoolname" className="block font-medium mb-1">
-                School Name{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
-              </label>
-              <input
-                type="text"
-                id="schoolname"
-                name="schoolname"
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
-                placeholder="Enter your school name"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="profile" className="block font-medium mb-1">
-                Upload Photo{" "}
-                <span className="text-red-500 font-bold text-lg">*</span>
+                Upload Photo <span className="text-red-500">*</span>
               </label>
               <input
                 type="file"
@@ -310,28 +185,26 @@ const AdmissionForm = () => {
                 name="profile"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="w-full p-2 rounded-lg outline-none shadow-md bg-slate-200 focus-within:bg-white duration-200"
+                required
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
-            <div className="mt-4 text-right">
+            <div>
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 mb-2 rounded hover:bg-blue-600 md:w-[40%] w-full"
+                disabled={loading}
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 {loading ? (
-                  <>
-                    <ScaleLoader color="#ffffff" />
-                  </>
+                  <ScaleLoader color="#ffffff" height={21} />
                 ) : (
                   "Submit"
                 )}
               </button>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </>
+    </div>
   );
-};
-
-export default AdmissionForm;
+}

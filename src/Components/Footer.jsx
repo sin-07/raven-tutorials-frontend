@@ -1,98 +1,83 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Link } from "react-router-dom"
+import { Facebook, Twitter, Instagram, Github, Mail } from "lucide-react"
 
-const Footers = () => {
+const Footer = () => {
+  const currentYear = new Date().getFullYear()
+
+  const socialLinks = [
+    { icon: Twitter, href: "https://twitter.com/raven_tutorials" },
+    { icon: Facebook, href: "https://facebook.com/raven_tutorials" },
+    { icon: Instagram, href: "https://instagram.com/raven_tutorials" },
+    { icon: Github, href: "https://github.com/sin-07" },
+    { icon: Mail, href: "mailto:contact@raventutorials.com" },
+  ]
+
+  const usefulLinks = [
+    { name: "Home", href: "/" },
+    { name: "About Us", href: "/about-us" },
+    { name: "Services", href: "/our-services" },
+    { name: "Admission", href: "/form" },
+    { name: "Login", href: "/login" },
+  ]
+
   return (
-    <>
-      <footer className="relative bg-blueGray-200 pt-8 pb-6 bg-black text-white">
-        <h1 className="font-bold text-3xl text-center">RAVEN</h1>
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap text-left lg:text-left">
-            <div className="w-full lg:w-6/12 px-4">
-              <h4 className="text-3xl fonat-semibold text-blueGray-700">
-                Let's keep in touch!
-              </h4>
-              <h5 className="text-lg mt-0 mb-2 text-blueGray-600">
-                Find us on any of these platforms, we respond 1-2 business days.
-              </h5>
-              <div className="mt-6 lg:mb-0 mb-6">
-                <button
-                  className="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                  type="button"
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold">RAVEN</h2>
+            <p className="text-gray-400">
+              Empowering minds through innovative education and personalized learning experiences.
+            </p>
+            <div className="flex space-x-4">
+              {socialLinks.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors duration-300"
                 >
-                  <i className="fab fa-twitter"></i>
-                </button>
-                <button
-                  className="bg-white text-lightBlue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                  type="button"
-                >
-                  <i className="fab fa-facebook-square"></i>
-                </button>
-                <button
-                  className="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                  type="button"
-                >
-                  <i className="fab fa-dribbble"></i>
-                </button>
-                <button
-                  className="bg-white text-blueGray-800 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                  type="button"
-                >
-                  <i className="fab fa-github"></i>
-                </button>
-              </div>
-            </div>
-            <div className="w-full lg:w-6/12 px-4">
-              <div className="flex flex-wrap items-top mb-6">
-                <div className="w-full lg:w-4/12 px-4 ml-auto text-center ">
-                  <span className="block uppercase text-blueGray-500 text-xl font-bold mb-2">
-                    Useful Links
-                  </span>
-                  <ul className="list-unstyled">
-                    <li>
-                      <Link
-                        to="/about-us"
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://www.creative-tim.com/presentation?ref=njs-profile"
-                      >
-                        About Us
-                      </Link>
-                    </li>
-
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://github.com/sin-07"
-                      >
-                        Github
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="w-full lg:w-4/12 px-4"></div>
-              </div>
+                  <link.icon size={24} />
+                  <span className="sr-only">{link.icon.name}</span>
+                </a>
+              ))}
             </div>
           </div>
-          <hr className="my-6 border-blueGray-300" />
-          <div className="flex flex-wrap items-center md:justify-between justify-center">
-            <div className="w-full md:w-4/12 px-4 mx-auto text-center">
-              <div className="text-sm text-blueGray-500 font-semibold py-1">
-                Copyright © <span id="get-current-year">2024</span>
-                <a
-                  href="https://www.creative-tim.com/product/notus-js"
-                  className="text-blueGray-500 hover:text-gray-800"
-                  target="_blank"
-                >
-                  {" "}
-                  Raven Tutorials
-                </a>
-              </div>
-            </div>
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Useful Links</h3>
+            <ul className="space-y-2">
+              {usefulLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    to={link.href}
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
+            <address className="not-italic text-gray-400">
+              <p>123 Education Street</p>
+              <p>Knowledge City, LE 12345</p>
+              <p>Phone: (123) 456-7890</p>
+              <p>Email: contact@raventutorials.com</p>
+            </address>
           </div>
         </div>
-      </footer>
-    </>
-  );
-};
+        <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
+          <p>
+            &copy; {currentYear} Raven Tutorials. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  )
+}
 
-export default Footers;
+export default Footer

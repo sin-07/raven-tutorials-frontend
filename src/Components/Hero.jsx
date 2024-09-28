@@ -1,118 +1,118 @@
-import React, { useEffect, useState } from "react";
-import { FaAngleLeft } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa6";
+import React, { useEffect, useState } from "react"
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6"
 
-function Hero() {
+export default function Hero() {
   const imgData = [
     "./images/WhatsApp Image 2024-03-09 at 23.07.52_bd555d59.jpg",
     "./images/wi3.jpg",
     "./images/wi4.jpg",
     "./images/wi5.jpg",
     "./images/wi6.jpg",
-  ];
-  const [slider, setslider] = useState(0);
+  ]
+
+  const [slider, setSlider] = useState(0)
+
   const handleLeft = () => {
-    setslider(slider === 0 ? imgData.length - 1 : slider - 1);
-  };
+    setSlider(slider === 0 ? imgData.length - 1 : slider - 1)
+  }
+
   const handleRight = () => {
-    setslider(slider === imgData.length - 1 ? 0 : slider + 1);
-  };
+    setSlider(slider === imgData.length - 1 ? 0 : slider + 1)
+  }
 
   useEffect(() => {
     const slideClear = setInterval(() => {
-      handleRight();
-    }, 2000);
-    return () => clearInterval(slideClear);
-  }, [slider]);
+      handleRight()
+    }, 5000)
+    return () => clearInterval(slideClear)
+  }, [slider])
 
   return (
     <>
-      <div className="">
-        <div className="container mx-auto relative">
+      <div className="relative overflow-hidden w-full">
+        <div className="relative h-[50vh] md:h-[60vh] lg:h-[70vh]">
           {imgData.map((item, i) => (
-            <div key={i} className={`${slider === i ? "block" : "hidden"}`}>
+            <div
+              key={i}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                slider === i ? "opacity-100" : "opacity-0"
+              }`}
+            >
               <img
                 src={item}
-                alt=""
-                className="md:w-full md:h-[60vh] md:rounded-xl"
+                alt={`Slide ${i + 1}`}
+                className="w-full h-full object-cover"
               />
             </div>
           ))}
-          <div className="w-full bg-black md:h-[60vh] mx-auto opacity-50 md:rounded-xl absolute top-0"></div>
-          <div className="flex absolute md:top-[50%] top-[30%] justify-between w-full text-white">
-            <FaAngleLeft
-              size={30}
-              className="cursor-pointer"
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="absolute inset-0 flex items-center justify-between px-4 max-w-7xl mx-auto">
+            <button
               onClick={handleLeft}
-            />
-            <FaAngleRight
-              size={30}
-              className="cursor-pointer"
+              className="text-white hover:text-gray-300 transition-colors duration-300"
+              aria-label="Previous slide"
+            >
+              <FaAngleLeft size={30} />
+            </button>
+            <button
               onClick={handleRight}
-            />
+              className="text-white hover:text-gray-300 transition-colors duration-300"
+              aria-label="Next slide"
+            >
+              <FaAngleRight size={30} />
+            </button>
           </div>
         </div>
       </div>
 
-      <div className="bg-gray-100 min-h-screen">
-        {/* Services section */}
+      <div className="bg-gradient-to-b from-gray-100 to-white min-h-full">
         <section className="py-16 px-4">
           <div className="container mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold mb-4">Our Theme</h1>
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-bold mb-4 text-gray-800">Our Theme</h1>
+              <div className="w-24 h-1 bg-blue-500 mx-auto"></div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* Service 1 */}
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4">
-                  Development of Science-backed Rationale
-                </h3>
-                <p className="text-gray-700">
-                  We focus on developing a strong scientific understanding in
-                  students through evidence-based learning and practical
-                  applications.
-                </p>
-              </div>
-
-              {/* Service 2 */}
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4">
-                  Perseverant Competitive Attitude
-                </h3>
-                <p className="text-gray-700">
-                  We instill a competitive spirit in students, encouraging them
-                  to persevere and excel in the face of challenges and setbacks.
-                </p>
-              </div>
-
-              {/* Service 3 */}
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4">
-                  Student-Friendly Environment
-                </h3>
-                <p className="text-gray-700">
-                  We create a welcoming and supportive environment where
-                  students feel comfortable to learn and grow.
-                </p>
-              </div>
-
-              {/* Service 4 */}
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4">
-                  Practical Scientific Approach
-                </h3>
-                <p className="text-gray-700">
-                  Our teaching methods focus on practical applications to
-                  enhance students' scientific thinking and aptitude.
-                </p>
-              </div>
+              {[
+                {
+                  title: "Development of Science-backed Rationale",
+                  description:
+                    "We focus on developing a strong scientific understanding in students through evidence-based learning and practical applications.",
+                  icon: "🧪",
+                },
+                {
+                  title: "Perseverant Competitive Attitude",
+                  description:
+                    "We instill a competitive spirit in students, encouraging them to persevere and excel in the face of challenges and setbacks.",
+                  icon: "🏆",
+                },
+                {
+                  title: "Student-Friendly Environment",
+                  description:
+                    "We create a welcoming and supportive environment where students feel comfortable to learn and grow.",
+                  icon: "🌟",
+                },
+                {
+                  title: "Practical Scientific Approach",
+                  description:
+                    "Our teaching methods focus on practical applications to enhance students' scientific thinking and aptitude.",
+                  icon: "🔬",
+                },
+              ].map((service, index) => (
+                <div
+                  key={index}
+                  className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1"
+                >
+                  <div className="text-4xl mb-4">{service.icon}</div>
+                  <h3 className="text-xl font-semibold mb-4 text-gray-800">{service.title}</h3>
+                  <p className="text-gray-600">{service.description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
       </div>
     </>
-  );
+  )
 }
-
-export default Hero;

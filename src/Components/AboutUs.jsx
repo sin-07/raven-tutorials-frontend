@@ -1,17 +1,29 @@
-import React from "react";
+import React from "react"
+import { motion } from "framer-motion"
 
 const TeamMember = ({ img, name, role, description }) => {
+  console.log(img)
   return (
-    <>
-      <div className="bg-white mb-8 text-center py-2 px-1 rounded-lg shadow-md">
-        <img src={`${img}`} alt="" className="w-[50%] mx-auto rounded-[50%]" />
-        <h3 className="text-lg font-semibold mb-2">{name}</h3>
-        <p className="text-sm font-light mb-1">{role}</p>
-        <p className="text-sm">{description}</p>
+    <motion.div
+      className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="relative pb-2/3">
+        <img 
+          src={img} 
+          alt={name} 
+        />
       </div>
-    </>
-  );
-};
+      <div className="p-6">
+        <h3 className="text-xl font-semibold mb-2">{name}</h3>
+        <p className="text-sm font-medium text-blue-600 mb-3">{role}</p>
+        <p className="text-sm text-gray-600">{description}</p>
+      </div>
+    </motion.div>
+  )
+}
 
 const AboutUs = () => {
   const teamMembers = [
@@ -45,7 +57,7 @@ const AboutUs = () => {
       role: "Faculty @ RAVEN Tutorials",
       description: `B. Sc. Graduate in Mathematics. I have a passion for teaching and interacting with students coming from different backgrounds. An experience of 4 years as a full-time teacher has enabled me to unlock my problem-solving aptitude for my students.`,
     },
-  ];
+  ]
 
   const devMembers = [
     {
@@ -60,79 +72,77 @@ const AboutUs = () => {
       role: "Backend Developer @ RAVEN Tutorials",
       description: `Backend Developer | Expertise in MONGODB | ITER College student. As a seasoned backend developer with three years of hands-on experience specializing in NodeJS.`,
     },
-  ];
+  ]
 
   return (
-    <>
-   
+    <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen">
+      <motion.div
+        className="container mx-auto py-24 px-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.div
+          className="max-w-3xl mx-auto text-center"
+          initial={{ y: 50 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-5xl font-bold mb-8 text-blue-900">About Us</h1>
+          <p className="text-lg text-gray-700 mb-6">
+            Welcome to RAVEN Tutorials, a home-based institution dedicated to providing an affordable and
+            comprehensive learning experience. We boost each student's potential, both academically and morally,
+            to maximize their future opportunities.
+          </p>
+          <p className="text-lg text-gray-700 mb-6">
+            As a science-themed institute, we emphasize Science and Mathematics through detailed theory,
+            practical sessions, and lab work. Our clear concepts and hands-on approach ensure a thorough
+            understanding of subjects.
+          </p>
+          <p className="text-lg text-gray-700 mb-6">
+            Our team members are lifelong learners, constantly improving their skills and knowledge. We believe
+            that to be a good teacher, one must also be an excellent learner.
+          </p>
+        </motion.div>
+      </motion.div>
 
-      <div className="bg-gray-100 min-h-screen">
-        <div className="container mx-auto py-16 px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-5xl font-bold mb-6 text-center">About Us</h2>
-            <p className="text-lg text-gray-700 mb-6">
-              Hello there! We welcome you to RAVEN Tutorials. Currently, it is a
-              home-based institution dedicated to providing an affordable and
-              comprehensive learning experience to students. We encourage and
-              boost each student on an individual level to fulfill their
-              potential, both academically and morally, in order to maximize
-              their opportunities for their future lives.
-            </p>
-            <p className="text-lg text-gray-700 mb-6">
-              We provide clear concepts of the subjects being taught at our
-              premises. Being a science-themed institute, we provide specific
-              emphasis on Science and Mathematics through detailed theory as
-              well as practical and lab work sessions.
-            </p>
-            <p className="text-lg text-gray-700 mb-6">
-              Our team members are the ones who believe in brushing up their
-              skills and knowledge by constantly learning new experiences in
-              their work arena. Our team members firmly assert that a good
-              teacher must be a good learner as well.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-gray-100 border-t-8 border-gray-400">
-        <div className="container mx-auto py-12">
-          <h2 className="text-3xl font-semibold mb-6 sm:text-left text-center">
+      <div className="bg-blue-900 py-20">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            className="text-4xl font-bold mb-12 text-center text-white"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             Our Team
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ">
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
-              <TeamMember
-                key={index}
-                img={member.img}
-                name={member.name}
-                role={member.role}
-                description={member.description}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="container mx-auto pb-12">
-          <h2 className="text-3xl font-semibold mb-6 sm:text-left text-center">
-            Developer Team
-          </h2>
-          <img src="/assets/images/developer.jpg" alt="" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {devMembers.map((member, index) => (
-              <TeamMember
-                key={index}
-                img={member.img}
-                name={member.name}
-                role={member.role}
-                description={member.description}
-              />
+              <TeamMember key={index} {...member} />
             ))}
           </div>
         </div>
       </div>
-      
-    </>
-  );
-};
 
-export default AboutUs;
+      <div className="py-20">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            className="text-4xl font-bold mb-12 text-center text-blue-900"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Developer Team
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {devMembers.map((member, index) => (
+              <TeamMember key={index} {...member} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default AboutUs

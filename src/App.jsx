@@ -8,6 +8,7 @@ import Login from "./Components/Login";
 import Forgot from "./Components/Forgot";
 import AdmissionForm from "./Components/AdmissionForm";
 import SubmissionSuccess from "./Components/SubmissionSuccess ";
+import GettingUsers from "./Components/GettingUsers";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/submit-successfully" element={<SubmissionSuccess />} />
+          <Route path='/getUsers' element={<GettingUsers />} />
         </Routes>
         <Footer />
       </BrowserRouter>
