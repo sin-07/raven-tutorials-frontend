@@ -11,7 +11,7 @@ export default function Component() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/getusers");
+        const response = await axios.get("https://raven-tutorials-backend-y1pc.onrender.com/getusers");
         console.log(response.data);
         setStudents(response.data.user || []);
         setLoading(false);
