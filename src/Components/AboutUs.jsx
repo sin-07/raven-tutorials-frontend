@@ -2,18 +2,19 @@ import React from "react"
 import { motion } from "framer-motion"
 
 const TeamMember = ({ img, name, role, description }) => {
-  console.log(img)
   return (
     <motion.div
-      className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
-      initial={{ opacity: 0, y: 50 }}
+      className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 text-center"
+      initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 1}}
     >
-      <div className="relative pb-2/3">
+      <div className="flex justify-center pb-2/3 ">
         <img 
           src={img} 
           alt={name} 
+          className="rounded-full w-[60%]"
+
         />
       </div>
       <div className="p-6">
@@ -80,13 +81,13 @@ const AboutUs = () => {
         className="container mx-auto py-24 px-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 1 }}
       >
         <motion.div
           className="max-w-3xl mx-auto text-center"
-          initial={{ y: 50 }}
+          initial={{ y: 100 }}
           animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 1 }}
         >
           <h1 className="text-5xl font-bold mb-8 text-blue-900">About Us</h1>
           <p className="text-lg text-gray-700 mb-6">
@@ -128,13 +129,13 @@ const AboutUs = () => {
         <div className="container mx-auto px-4">
           <motion.h2
             className="text-4xl font-bold mb-12 text-center text-blue-900"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
           >
             Developer Team
           </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto ">
             {devMembers.map((member, index) => (
               <TeamMember key={index} {...member} />
             ))}

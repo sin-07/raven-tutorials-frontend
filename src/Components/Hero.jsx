@@ -30,7 +30,7 @@ export default function Hero() {
   return (
     <>
       <div className="relative overflow-hidden w-full">
-        <div className="relative h-[50vh] md:h-[60vh] lg:h-[70vh]">
+        <div className="relative h-[50vh] md:h-[60vh] lg:h-[70vh] top-[63px]">
           {imgData.map((item, i) => (
             <div
               key={i}

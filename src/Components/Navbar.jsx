@@ -5,17 +5,8 @@ import { RxCross2 } from "react-icons/rx"
 
 export default function Navbar() {
   const [sidenav, setSidenav] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -26,7 +17,7 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300  ${scrolled ? 'bg-white shadow-md' : 'bg-white/60'}`}>
+    <nav className={`fixed w-full z-10  transition-all duration-300 bg-white/60`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
