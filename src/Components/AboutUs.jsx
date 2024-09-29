@@ -13,7 +13,7 @@ const TeamMember = ({ img, name, role, description }) => {
         <img 
           src={img} 
           alt={name} 
-          className="rounded-full w-[60%]"
+          // className="w-[60%]"
 
         />
       </div>

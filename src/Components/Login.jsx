@@ -1,105 +1,93 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import { ScaleLoader } from "react-spinners";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast, Toaster } from 'react-hot-toast';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const handleLogin = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setLoading(true);
     try {
-      if (!email || !password) {
-        return toast.error("Please fill in all fields");
-      } else {
-        const res = await axios.post(
-          "https://raven-tutorials-backend-y1pc.onrender.com/login",
-          {
-            email,
-            password,
-          }
-        );
-        const data = await res.data;
-        if (!data) {
-          return toast.error("Invalid credentials");
-        } else {
-          toast.success(data.message);
+      const response = await axios.post('https://raven-tutorials-backend-y1pc.onrender.com/login', {
+        email,
+        password,
+      });
 
-          setTimeout(() => {
-            navigate("/");
-          }, 1000);
+      if (response.data.success) {
+        localStorage.setItem('userEmail', email);
+        toast.success('Login successful');
+        if (email === 'aniketsingh07vs@gmail.com') {
+          navigate('/getUsers');
+        } else {
+          navigate('/profile');
         }
+      } else {
+        toast.error('Invalid credentials');
       }
     } catch (error) {
-      toast.error(error.response.data.message);
-    } finally {
-      setLoading(false); // Reset loading state
+      toast.error('Login failed');
     }
   };
 
   return (
-    <>
-      <Toaster />
-      <div className="min-h-screen w-full md:px-0 px-1 md:flex justify-center items-center pt-10">
-        <form
-          className="md:w-[30%] w-full  md:px-4 px-1  pb-8 shadow-2xl rounded-lg mt-2"
-          onSubmit={handleLogin}
-        >
-          <h1 className="font-bold text-3xl mb-4 py-6 text-center">LogIn</h1>
-          <div className="mb-4">
-            <label htmlFor="email" className="block font-bold mb-2">
-              Email:
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full bg-slate-100 h-10 rounded-lg outline-none px-2 shadow-md"
-            />
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <input type="hidden" name="remember" value="true" />
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email-address" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="email-address"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block font-bold mb-2">
-              Password:
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full bg-slate-100 h-10 rounded-lg outline-none px-2 shadow-md"
-            />
+
+          <div>
+            <button
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Sign in
+            </button>
           </div>
-          <div className="mb-4 text-end">
-            <Link to="/forgot" className="text-blue-500 ">
-              Forget Password
-            </Link>
-          </div>
-          <button
-            type="submit"
-            className="w-full h-10 rounded-lg bg-black text-white flex justify-center items-center"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <ScaleLoader color="#ffffff" />
-              </>
-            ) : (
-              "Login"
-            )}
-          </button>
         </form>
       </div>
-    </>
+    </div>
   );
-};
-
-export default Login;
+}

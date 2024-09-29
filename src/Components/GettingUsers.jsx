@@ -2,14 +2,22 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { AiFillDelete } from "react-icons/ai";
 import { toast, Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-export default function Component() {
+export default function GettingUsers() {
   const [students, setStudents] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail !== 'aniket.singh9322@gmail.com') {
+          navigate('/profile');
+          return;
+        }
+
         const response = await axios.get(
           "https://raven-tutorials-backend-y1pc.onrender.com/getusers"
         );
@@ -20,24 +28,21 @@ export default function Component() {
     };
 
     fetchStudents();
-  }, []);
+  }, [navigate]);
 
   const deleteUser = async (id) => {
     try {
       const res = await axios.delete(`https://raven-tutorials-backend-y1pc.onrender.com/delete-user/${id}`);
       if (res.status === 200) {
         toast.success("Data deleted successfully");
+        setStudents(students.filter(student => student._id !== id));
       } else {
         toast.error("Something went wrong");
       }
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      toast.error("Failed to delete user");
     }
   };
-
-  //   if (loading) {
-  //     return <div className="text-center p-4">Loading...</div>;
-  //   }
 
   if (error) {
     return <div className="text-center text-red-500 p-4">{error}</div>;
@@ -51,7 +56,7 @@ export default function Component() {
           <div className="container mx-auto py-24 px-4 h-screen">
             <h1 className="text-2xl font-bold mb-4">Student Information</h1>
             <div className="overflow-x-auto">
-              <table className="min-w-full bg-white">
+            <table className="min-w-full bg-white">
                 <thead>
                   <tr className="bg-gray-100">
                     <th className="py-2 px-4 border-b">Profile</th>

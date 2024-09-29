@@ -9,6 +9,7 @@ import Forgot from "./Components/Forgot";
 import AdmissionForm from "./Components/AdmissionForm";
 import SubmissionSuccess from "./Components/SubmissionSuccess ";
 import GettingUsers from "./Components/GettingUsers";
+import Profile from "./Components/Profile";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/submit-successfully" element={<SubmissionSuccess />} />
           <Route path='/getUsers' element={<GettingUsers />} />
+          <Route path='/profile' element={<Profile />} />
         </Routes>
         <Footer />
       </BrowserRouter>
