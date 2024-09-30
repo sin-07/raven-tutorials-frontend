@@ -13,7 +13,7 @@ export default function Navbar() {
     { name: 'Services', path: '/our-services' },
     { name: 'Admission', path: '/form' },
     { name: 'About Us', path: '/about-us' },
-    { name: 'Users', path: '/getUsers' },
+    // { name: 'Users', path: '/getUsers' },
   ]
 
   return (
