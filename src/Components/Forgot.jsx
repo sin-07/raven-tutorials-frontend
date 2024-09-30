@@ -9,7 +9,7 @@ const Forgot = () => {
   const handleForgot = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post("http://localhost:8000/api/forgot", {
+      const res = await axios.post("http://localhost:5000/forgot", {
         email,
       });
 

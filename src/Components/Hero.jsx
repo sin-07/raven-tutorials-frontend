@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react"
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa6"
+import React, { useEffect, useState } from "react";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 export default function Hero() {
   const imgData = [
@@ -8,28 +9,33 @@ export default function Hero() {
     "./images/wi4.jpg",
     "./images/wi5.jpg",
     "./images/wi6.jpg",
-  ]
+  ];
 
-  const [slider, setSlider] = useState(0)
+  const [slider, setSlider] = useState(0);
 
   const handleLeft = () => {
-    setSlider(slider === 0 ? imgData.length - 1 : slider - 1)
-  }
+    setSlider(slider === 0 ? imgData.length - 1 : slider - 1);
+  };
 
   const handleRight = () => {
-    setSlider(slider === imgData.length - 1 ? 0 : slider + 1)
-  }
+    setSlider(slider === imgData.length - 1 ? 0 : slider + 1);
+  };
 
   useEffect(() => {
     const slideClear = setInterval(() => {
-      handleRight()
-    }, 5000)
-    return () => clearInterval(slideClear)
-  }, [slider])
+      handleRight();
+    }, 5000);
+    return () => clearInterval(slideClear);
+  }, [slider]);
 
   return (
     <>
-      <div className="relative overflow-hidden w-full">
+      <motion.div
+        className="relative overflow-hidden w-full"
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+      >
         <div className="relative h-[50vh] md:h-[60vh] lg:h-[70vh] top-[63px]">
           {imgData.map((item, i) => (
             <div
@@ -63,13 +69,19 @@ export default function Hero() {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="bg-gradient-to-b from-gray-100 to-white min-h-full">
+      <motion.div className="bg-gradient-to-b from-gray-100 to-white min-h-full"
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1}}
+      >
         <section className="py-16 px-4">
           <div className="container mx-auto">
             <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold mb-4 text-gray-800">Our Theme</h1>
+              <h1 className="text-4xl font-bold mb-4 text-gray-800">
+                Our Theme
+              </h1>
               <div className="w-24 h-1 bg-blue-500 mx-auto"></div>
             </div>
 
@@ -100,19 +112,22 @@ export default function Hero() {
                   icon: "🔬",
                 },
               ].map((service, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1"
+                  whileHover={{ scale: 1.03 }}
+                  className="bg-white p-6 rounded-lg hover:shadow-xl shadow-lg transition-shadow duration-500"
                 >
                   <div className="text-4xl mb-4">{service.icon}</div>
-                  <h3 className="text-xl font-semibold mb-4 text-gray-800">{service.title}</h3>
+                  <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                    {service.title}
+                  </h3>
                   <p className="text-gray-600">{service.description}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
-      </div>
+      </motion.div>
     </>
-  )
+  );
 }

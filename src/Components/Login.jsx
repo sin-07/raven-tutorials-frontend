@@ -16,10 +16,12 @@ export default function Login() {
         password,
       });
 
-      if (response.data.success) {
+      const data = response.data;
+      
+      if (response.status === 200) {
         localStorage.setItem('userEmail', email);
-        toast.success('Login successful');
-        if (email === 'aniketsingh07vs@gmail.com') {
+        toast.success(data.message);
+        if (email === 'aniket.singh07vs@gmail.com') {
           navigate('/getUsers');
         } else {
           navigate('/profile');

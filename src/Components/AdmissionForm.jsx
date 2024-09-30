@@ -4,6 +4,7 @@ import axios from "axios";
 import { ScaleLoader } from "react-spinners";
 import { useUpload } from "../hooks/useUpload";
 import toast, { Toaster } from "react-hot-toast";
+import { motion } from "framer-motion";
 
 export default function AdmissionForm() {
   const [image, setImage] = useState(null);
@@ -75,12 +76,14 @@ export default function AdmissionForm() {
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white py-12 px-4 sm:px-6 lg:px-8">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden mt-10">
-        <div className="px-4 py-5 sm:p-6">
+        <motion.div initial={{ opacity: 0, x: -100 }}
+                  animate={{ opacity: 2, x: 0 }}
+                  transition={{ duration: 0.8 }} className="px-4 py-5 sm:p-6">
           <h2 className="text-center font-bold text-3xl md:text-4xl text-gray-900 mb-8">
             Admission Form
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+          <form  onSubmit={handleSubmit} className="space-y-6">
+            <div  className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
               {[
                 {
                   name: "name",
@@ -152,7 +155,12 @@ export default function AdmissionForm() {
                   placeholder: "Enter your school name",
                 },
               ].map((field) => (
-                <div key={field.name}>
+                <motion.div
+                  key={field.name}
+                  initial={{ opacity: 0, y: 100 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                >
                   <label
                     htmlFor={field.name}
                     className="block text-sm font-medium text-gray-700"
@@ -169,7 +177,7 @@ export default function AdmissionForm() {
                     required
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   />
-                </div>
+                </motion.div>
               ))}
             </div>
             <div>
@@ -203,7 +211,7 @@ export default function AdmissionForm() {
               </button>
             </div>
           </form>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
